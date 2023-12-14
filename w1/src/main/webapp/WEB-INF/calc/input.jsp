@@ -13,7 +13,9 @@
 <!-- 이경우엔 urlPatterns에 적힌 그대로 쳐야한다. -->
 
 
-<form action="calcResult.jsp" method="post"> <!--  //form태그의 action을 'calcResult.jsp' 로 전송하고 전송방식은 post로 한다. -->
+<!--  <form action="calcResult.jsp" method="post">   //form태그의 action을 'calcResult.jsp' 로 전송하고 전송방식은 post로 한다. jsp파일 직접호출 WEB-INF 에 두면 브라우저가 찾을수없다. -->
+
+<form action="/calc/makeResult" method="post"> <!--  //form태그의 action을 '/calc/makeResult' 로 전송하고 전송방식은 post로 한다. -->
 	<input type="number" name="num1"> 
 	<input type="number" name="num2">
 	<button type="submit">SEND</button>
