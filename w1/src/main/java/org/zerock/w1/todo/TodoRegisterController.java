@@ -27,5 +27,9 @@ public class TodoRegisterController extends HttpServlet{
 		
 		// 브라우저가 호출해야 하는 주소
 		resp.sendRedirect("/todo/list");
+		
+		//POST방식의 호출을 '새로고침'하는 경우 양식 다시 제출 경고창이 뜨지만 해결책이 아니므로 
+		// 이를 막기 위해서 PRG패턴을 적용하도록 sendRedirec()가 필요하다.
+		//sendRedirect()는 브라우저를 아예 다른 주소로 이동시키기 때문에 사용자가 반복적인 POST요청을 보내는것을 막을수 있다.
 	}
 }
