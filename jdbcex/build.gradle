@@ -1,0 +1,12 @@
+plugins {
+	id 'java'
+	id 'war'
+}
+
+group 'org.zerock'
+version '1.0-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+
+}
