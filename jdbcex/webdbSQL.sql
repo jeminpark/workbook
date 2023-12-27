@@ -18,3 +18,10 @@ insert into tbl_todo (title, dueDate, finished)
 	
 
 SELECT * FROM tbl_todo;
+
+SELECT * FROM tbl_todo where tno < 10;
+
+update tbl_todo set finished = 0, title = 'Not Yet...' where tno = 3;
+
+
+DELETE FROM tbl_todo where tno > 5;
