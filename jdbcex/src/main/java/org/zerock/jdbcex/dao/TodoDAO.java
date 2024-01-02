@@ -102,5 +102,71 @@ public class TodoDAO {
 		
 		return list;
 	}
+	
+	
+	// 경우에 따라서 특정한 번호(tno)의 데이터만 가져오는 기능이 필요하다.
+	// selectOne() 이라는 메소드에는 특정한 번호(tno) 가 파라미터가되고, TodoVO를 리턴타입으로 지정한다.
+	// selectOne() 은 selectAll()과 마찬가지로 쿼리(select)를 실행하기 때문에 ResultSet 이 필요하다.
+	// 여러개의 데이터가 나오는 selectAll()과 달리 selectOne()은 한 행(row)의 데이터만 나오기 때문에
+	// while(resultSet.next()) 대신에 한번만 resultSet.next()를 실행하면된다.
+	public TodoVO selectOne(Long tno) throws Exception {
+		
+		String sql = "select * from tbl_todo where tno = ?";
+		
+		@Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+		@Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setLong(1, tno);
+		
+		@Cleanup ResultSet resultSet = preparedStatement.executeQuery();
+		
+		resultSet.next();
+		TodoVO vo = TodoVO.builder()
+				.tno(resultSet.getLong("tno"))
+				.title(resultSet.getString("title"))
+				.dueDate(resultSet.getDate("dueDate").toLocalDate())
+				.finished(resultSet.getBoolean("finished"))
+				.build();
+		
+		return vo;
+	}
+	
+	
+	
+	// 삭제 기능은 조회와 비슷하지만 쿼리(select) 가 아니다.
+	// 삭제할 때에도 특정한 번호(tno) 가 필요하기 때문에 다음과 같은 형태로 작성한다.
+	public void deleteOne(Long tno) throws Exception {
+		
+		String sql = "delete from tbl_todo where tno = ?";
+		
+		@Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+		@Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setLong(1, tno);
+		preparedStatement.executeUpdate();
+		
+	}
+	
+	
+	// 수정기능은 특정한 번호(tno)를 가진 데이터의 제목(title)과 만료일(dueDate), 완료여부(finish)를 update하도록 구성해야한다.
+	// updateOne()은 파라미터로 모든 정보가 다 담겨있는 TodoVO를 받아서 executeUpdate를 실행한다.
+	// 중요한 데이터의 처리는 PreparedStatement에 의해서 처리되는데 'update tbl_todo... '부분에 4개의 '?' 가 있으므로 1부터 순번에 맞는 데이터를 
+	// TodoVO 객체의 getXXX() 를 통해서 지정한다.
+	public void updateOne(TodoVO todoVO) throws Exception {
+		
+		String sql = "update tbl_todo set title = ?, dueDate = ?, finished = ? where tno = ?";
+		
+		@Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+		@Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setString(1, todoVO.getTitle());
+		preparedStatement.setDate(2, Date.valueOf(todoVO.getDueDate()));
+		preparedStatement.setBoolean(3, todoVO.isFinished());
+		preparedStatement.setLong(4, todoVO.getTno());
+		
+		preparedStatement.executeUpdate();
+		
+	}
+	
 
 }

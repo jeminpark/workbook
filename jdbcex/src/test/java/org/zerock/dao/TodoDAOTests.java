@@ -55,5 +55,37 @@ public class TodoDAOTests {
 		
 		list.forEach(vo -> System.out.println(vo));
 	}
+	
+	
+	// selectOne() 기능의 동작을 확인한다.
+	// 테스트 할때에는 가능하면 tbl_todo 테이블에 존재하는 실제번호를 이용해서 확인하도록 한다.
+	// 정상적인경우에는 TodoVO(tno=1, title=Test..., dueDate=2022-12-31, finished=true) 반환
+	// 존재하지 않는 번호의 글을 조회하면 java.sql.SQLDataException:wrong row position
+	@Test
+	public void testSelectOne() throws Exception {
+		
+		Long tno = 1L;  //반드시 존재하는 번호를 이용
+		
+		TodoVO vo = todoDAO.selectOne(tno);
+		
+		System.out.println(vo);
+	}
+	
+	
+	// updateOne()의 테스트코드를 작성한다.
+	// 1번글이 존재한경우 testUpdateOne() 실행 이후에는 변경된 값을 가지게 된다.
+	@Test
+	public void testUpdateOne() throws Exception {
+		TodoVO todoVO = TodoVO.builder()
+				.tno(1L)
+				.title("Sample Title...")
+				.dueDate(LocalDate.of(2021, 12, 31))
+				.finished(true)
+				.build();
+		
+		todoDAO.updateOne(todoVO);
+	}
+	
+	// ****중요 : 가능하다면 TodoDAO의 모든기능을 테스트해서 SQL의 잘못된 부분이 있는지 미리 확인해 두도록 한다.
 
 }
