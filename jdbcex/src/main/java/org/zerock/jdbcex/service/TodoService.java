@@ -6,6 +6,10 @@ import org.zerock.jdbcex.domain.TodoVO;
 import org.zerock.jdbcex.dto.TodoDTO;
 import org.zerock.jdbcex.util.MapperUtil;
 
+import lombok.extern.log4j.Log4j2;
+
+// system.out.println() 대신에 log.info() 로 변경
+@Log4j2
 //DTO와 VO를 둘다 이용해야 하는 TodoService를 구성하고 ModelMapper의 동작을 확인한다.
 // TodoService는 ModelMapper 와 TodoDAO를 이용할수 있도록 구성하고, 새로운 TodoDTO를 등록하는 기능을 추가한다.
 public enum TodoService {	
@@ -28,7 +32,8 @@ public enum TodoService {
 		
 		TodoVO todoVO = modelMapper.map(todoDTO, TodoVO.class);
 		
-		System.out.println("todoVO: " + todoVO );
+//		System.out.println("todoVO: " + todoVO );
+		log.info(todoVO);
 		
 		dao.insert(todoVO); // int를 반환 하므로 이를 이용해서 예외처리도 가능
 	}
