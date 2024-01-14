@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.zerock.jdbcex.domain.TodoVO;
 import org.zerock.jdbcex.dto.TodoDTO;
 import org.zerock.jdbcex.service.TodoService;
 
@@ -51,6 +52,6 @@ public class TodoRegisterController extends HttpServlet {
 		}
 		
 		resp.sendRedirect("/todo/list");
-	}
+	}	
 	
 }
